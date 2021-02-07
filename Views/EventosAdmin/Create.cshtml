@@ -1,0 +1,78 @@
+@{
+    ViewBag.Title = "Criar novo evento";
+}
+
+
+@using (Html.BeginForm())
+{
+     @Html.AntiForgeryToken()
+
+<form class="form-horizontal justify-content-xl-center">
+
+    <h4>Criar evento</h4>
+    <hr />
+
+    <div class="form-group">
+        <label>Titulo:</label>
+        <div class="text-md-left">
+            <input id="titulo_evento" name="titulo_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Data</label>
+        <div class="text-md-left">
+            <input id="data_evento" type="date" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Hora:</label>
+        <div class="text-md-left">
+            <input id="hora_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Local:</label>
+        <div class="text-md-left">
+            <input id="local_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Morada:</label>
+        <div class="text-md-left">
+            <input id="morada_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Localidade:</label>
+        <div class="text-md-left">
+            <input id="localidade_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Tipo de evento:</label>
+        <div class="text-md-left">
+            <input id="tipo_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Estado:</label>
+        <div class="text-md-left">
+            <input id="estado_evento" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="text-md-left">
+            <input id="criar_evento_submit" type="submit" asp-controller="EventosAdmin" asp-action="Sucesso" value="Criar evento" />
+        </div>
+    </div>
+</form>
+}
+

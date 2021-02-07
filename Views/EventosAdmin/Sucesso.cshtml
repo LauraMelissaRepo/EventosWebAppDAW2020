@@ -1,0 +1,17 @@
+@{
+    ViewBag.Title = "Evento criado";
+}
+
+@using (Html.BeginForm())
+{
+      @Html.AntiForgeryToken()
+
+    <div class="form-horizontal justify-content-xl-center">
+        <label>O evento foi criado com sucesso!</label>
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Voltar para a lista de eventos", "Index")
+</div>

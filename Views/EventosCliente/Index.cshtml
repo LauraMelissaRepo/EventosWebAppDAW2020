@@ -1,0 +1,61 @@
+@{
+    ViewBag.Title = "Consultar Eventos";
+}
+
+<h3>Eventos que se irão realizar</h3>
+
+<div>
+    <label>Data do Evento</label>
+    <input id="data_evento" type="date" />
+
+    <label>Tipo de Evento</label>
+    <select id="tipo_evento">
+        <option disabled selected tipo_evento>Selecione uma opção</option>
+        <option>Teatro</option>
+        <option>Dança</option>
+    </select>
+
+    <label>Localidade</label>
+    <select id="localidade">
+        <option disabled selected localidade>Selecione uma opção</option>
+        <option>Albufeira</option>
+        <option>Loulé</option>
+    </select>
+
+    <input id="confirmar_filtros_btn" type="button" value="Confirmar" />
+    OU
+    <input id="mostrar_todos_btn" type="button" value="Mostrar eventos" />
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <th id="titulo">
+                Titulo
+            </th>
+            <th id="data e hora">
+                Data e Hora
+            </th>
+            <th id="titulo">
+                Local
+            </th>
+            <th id="morada">
+                Morada
+            </th>
+            <th id="localidade_t">
+                Localidade
+            </th>
+            <th id="tipo_evento_t">
+                Tipo de evento
+            </th>
+            <th id="estado">
+                Estado
+            </th>
+        </tr>
+    </table>
+</div>
+
+
+
+
+
+

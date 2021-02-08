@@ -1,0 +1,35 @@
+
+@{
+    ViewData["Title"] = "Filter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Eventos que se irão realizar</h3>
+<p>
+
+
+</p>
+
+<div>
+    <label>Data do Evento</label>
+    <input id="data_evento" type="date" />
+
+    <label>Tipo de Evento</label>
+    <select id="tipo_evento">
+        <option disabled selected tipo_evento>Selecione uma opção</option>
+        <option>Teatro</option>
+        <option>Dança</option>
+    </select>
+
+    <label>Localidade</label>
+    <select id="localidade">
+        <option disabled selected localidade>Selecione uma opção</option>
+        <option>Albufeira</option>
+        <option>Loulé</option>
+    </select>
+
+    <input id="confirmar_filtros_btn" type="button" value="Confirmar" class="btn btn-outline-dark" />
+    OU
+    <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark" value="Mostrar eventos">Mostrar eventos</a>
+
+</div>
+

@@ -1,33 +1,50 @@
+using EventosWebApp.Helper;
+using EventosWebApp.Models.ModelsAPI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EventosWebApp.Controllers
 {
-    public class EventosClienteController : Controller
+    public class EventosController : Controller
     {
-        // GET: EventosClienteController
-        public ActionResult Index()
+        EventosWebAPI _api = new EventosWebAPI();
+
+        // GET: EventosController
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Evento> eventos = new List<Evento>();
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/Eventos");
+
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                eventos = JsonConvert.DeserializeObject<List<Evento>>(result);
+
+            }
+
+            return View(eventos);
         }
 
-        // GET: EventosClienteController/Details/5
+        // GET: EventosController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: EventosClienteController/Create
+        // GET: EventosController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EventosClienteController/Create
+        // POST: EventosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -42,13 +59,13 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        // GET: EventosClienteController/Edit/5
+        // GET: EventosController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: EventosClienteController/Edit/5
+        // POST: EventosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -63,13 +80,13 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        // GET: EventosClienteController/Delete/5
+        // GET: EventosController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: EventosClienteController/Delete/5
+        // POST: EventosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -84,7 +101,7 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        public ActionResult Sucesso()
+        public ActionResult Filter()
         {
             return View();
         }

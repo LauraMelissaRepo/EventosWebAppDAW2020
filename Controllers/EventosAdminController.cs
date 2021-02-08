@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EventosWebApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class EventosAdminController : Controller
     {
         // GET: EventosAdminController
@@ -18,18 +18,21 @@ namespace EventosWebApp.Controllers
         }
 
         // GET: EventosAdminController/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        
+
         // GET: EventosAdminController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: EventosAdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,7 +48,9 @@ namespace EventosWebApp.Controllers
             }
         }
 
+
         // GET: EventosAdminController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             return View();
@@ -54,6 +59,7 @@ namespace EventosWebApp.Controllers
         // POST: EventosAdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -67,6 +73,7 @@ namespace EventosWebApp.Controllers
         }
 
         // GET: EventosAdminController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             return View();
@@ -75,6 +82,7 @@ namespace EventosWebApp.Controllers
         // POST: EventosAdminController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -85,6 +93,11 @@ namespace EventosWebApp.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Sucesso()
+        {
+            return View();
         }
     }
 }

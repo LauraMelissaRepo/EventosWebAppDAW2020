@@ -1,24 +1,45 @@
-﻿@model IEnumerable<EventosWebApp.Models.Favorito>
+@model IEnumerable<EventosWebApp.Models.Favorito>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Eventos Favoritos";
 }
 
-<h1>Index</h1>
+<h3>Eventos Favoritos</h3>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
             <th>
+                Titulo
+            </th>
+            <th>
+                Data e Hora
+            </th>
+            <th>
+                Local
+            </th>
+            <th>
+                Morada
+            </th>
+            <th>
+                Localidade
+            </th>
+            <th>
+                Tipo de evento
+            </th>
+            <th>
+                Estado
+            </th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.EventosId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
-            <th></th>
+            <th></th>*@
         </tr>
     </thead>
     <tbody>

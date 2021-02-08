@@ -1,8 +1,11 @@
 @{
     ViewBag.Title = "Consultar Eventos";
 }
-
 <h3>Eventos que se irão realizar</h3>
+<p>
+
+
+</p>
 
 <div>
     <label>Data do Evento</label>
@@ -26,36 +29,43 @@
     OU
     <input id="mostrar_todos_btn" type="button" value="Mostrar eventos" />
 </div>
-<div>
-    <table class="table">
+<p>
+
+
+</p>
+
+
+<table class="table">
+    <thead>
         <tr>
-            <th id="titulo">
+            <th>
                 Titulo
             </th>
-            <th id="data e hora">
+            <th>
                 Data e Hora
             </th>
-            <th id="titulo">
+            <th>
                 Local
             </th>
-            <th id="morada">
+            <th>
                 Morada
             </th>
-            <th id="localidade_t">
+            <th>
                 Localidade
             </th>
-            <th id="tipo_evento_t">
+            <th>
                 Tipo de evento
             </th>
-            <th id="estado">
+            <th>
                 Estado
             </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.EventosId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th></th>*@
         </tr>
-    </table>
-</div>
-
-
-
-
-
-
+    </thead>
+</table>

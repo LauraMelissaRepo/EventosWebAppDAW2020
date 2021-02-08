@@ -32,10 +32,11 @@ namespace EventosWebApp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        
         // POST: EventosAdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(IFormCollection collection)
         {
             try

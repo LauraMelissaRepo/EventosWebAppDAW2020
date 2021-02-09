@@ -1,42 +1,52 @@
-using Microsoft.AspNetCore.Authorization;
+using EventosWebApp.Helper;
+using EventosWebApp.Models.ModelsAPI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
 
 namespace EventosWebApp.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    public class EventosAdminController : Controller
+    public class TipoController : Controller
     {
-        // GET: EventosAdminController
-        public ActionResult Index()
+        EventosWebAPI _api = new EventosWebAPI();
+
+        // GET: TipoController
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Tipo> tipos = new List<Tipo>();
+            HttpClient client = _api.Initial();
+
+            HttpResponseMessage res = await client.GetAsync("api/Tipos");
+
+            if(res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                tipos = JsonConvert.DeserializeObject<List<Tipo>>(result);
+            }
+            return View(tipos);
         }
 
-        // GET: EventosAdminController/Details/5
-        [Authorize(Roles = "Admin")]
+        // GET: TipoController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-
-        // GET: EventosAdminController/Create
-        [Authorize(Roles = "Admin")]
+        // GET: TipoController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        
-        // POST: EventosAdminController/Create
+        // POST: TipoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -49,18 +59,15 @@ namespace EventosWebApp.Controllers
             }
         }
 
-
-        // GET: EventosAdminController/Edit/5
-        [Authorize(Roles = "Admin")]
+        // GET: TipoController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: EventosAdminController/Edit/5
+        // POST: TipoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
@@ -73,17 +80,15 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        // GET: EventosAdminController/Delete/5
-        [Authorize(Roles = "Admin")]
+        // GET: TipoController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: EventosAdminController/Delete/5
+        // POST: TipoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -94,11 +99,6 @@ namespace EventosWebApp.Controllers
             {
                 return View();
             }
-        }
-
-        public ActionResult Sucesso()
-        {
-            return View();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace EventosWebApp.Controllers
     {
         private readonly EventosWebAppContext _context;
 
+
         public FavoritosController(EventosWebAppContext context)
         {
             _context = context;
@@ -149,6 +150,16 @@ namespace EventosWebApp.Controllers
             _context.Favoritos.Remove(favorito);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public async Task<IActionResult> AddToFavorite(int id)
+        {
+            
+
+
+            return RedirectToAction();
         }
 
         private bool FavoritoExists(int id)

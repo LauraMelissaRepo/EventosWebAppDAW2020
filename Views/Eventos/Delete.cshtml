@@ -1,56 +1,67 @@
-﻿@model EventosWebApp.Models.ModelsAPI.Evento
+@model EventosWebApp.Models.ModelsAPI.Evento
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Eliminar</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem a certeza que pretende eliminar este evento?</h3>
 <div>
-    <h4>Evento</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Titulo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Titulo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Data)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Data)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Estado)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Estado)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipo.TipoEvento)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tipo.TipoEvento)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LocalId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Local.NomeLocal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LocalId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Local.NomeLocal)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Local.Morada)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Local.Morada)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Local.Localidade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Local.Localidade)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Apagar" class="btn btn-danger" /> |
+        <a asp-action="Index">Voltar para a lista de eventos</a>
     </form>
 </div>

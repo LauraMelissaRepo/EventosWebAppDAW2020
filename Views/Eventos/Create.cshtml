@@ -13,10 +13,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>*@
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
@@ -33,17 +33,27 @@
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TipoId" class="control-label"></label>
-                <input asp-for="TipoId" class="form-control" />
-                <span asp-validation-for="TipoId" class="text-danger"></span>
+                <label asp-for="Tipo.TipoEvento" class="control-label"></label>
+                <input asp-for="Tipo.TipoEvento" class="form-control" />
+                <span asp-validation-for="Tipo.TipoEvento" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LocalId" class="control-label"></label>
-                <input asp-for="LocalId" class="form-control" />
-                <span asp-validation-for="LocalId" class="text-danger"></span>
+                <label asp-for="Local.NomeLocal" class="control-label"></label>
+                <input asp-for="Local.NomeLocal" class="form-control" />
+                <span asp-validation-for="Local.NomeLocal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Local.Morada" class="control-label"></label>
+                <input asp-for="Local.Morada" class="form-control" />
+                <span asp-validation-for="Local.Morada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Local.Localidade" class="control-label"></label>
+                <input asp-for="Local.Localidade" class="form-control" />
+                <span asp-validation-for="Local.Localidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -1,6 +1,8 @@
 using EventosWebApp.Helper;
+using EventosWebApp.Models;
 using EventosWebApp.Models.ModelsAPI;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -10,11 +12,15 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace EventosWebApp.Controllers
 {
     public class EventosController : Controller
     {
+
+        private EventosWebAppContext db = new EventosWebAppContext();
+        SignInManager<IdentityUser> signinmanager;
         EventosWebAPI _api = new EventosWebAPI();
 
         // GET: EventosController
@@ -48,35 +54,42 @@ namespace EventosWebApp.Controllers
         // POST: EventosController/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<Uri> Create(Evento evento)
+        public async Task<IActionResult> Create(Evento evento)
         {
             HttpClient client = _api.Initial();
-            HttpResponseMessage response = await client.PostAsJsonAsync( "api/Eventos", evento);
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Eventos", evento);
             response.EnsureSuccessStatusCode();
 
         
-            return response.Headers.Location;
+            return RedirectToAction("Index");
         }
 
         // GET: EventosController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            HttpClient client = _api.Initial();
+            Evento evento = null;
+            HttpResponseMessage res = await client.GetAsync($"api/Eventos/{id}");
+
+            if (res.IsSuccessStatusCode)
+            {
+                evento = await res.Content.ReadFromJsonAsync<Evento>();
+                return View(evento);
+            }
+            return View(evento);
         }
 
         // POST: EventosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<Evento> Edit(int id, Evento evento)
+        public async Task<IActionResult> Edit(int id, Evento evento)
         {
             HttpClient client = _api.Initial();
-            HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"api/Eventos/{id}", evento);
+            HttpResponseMessage response = await client.PutAsJsonAsync($"api/Eventos/{id}", evento);
+
             response.EnsureSuccessStatusCode();
 
-            evento = await response.Content.ReadFromJsonAsync<Evento>();
-
-            return evento;
+            return RedirectToAction("Index");
         }
 
         // GET: EventosController/Delete/5
@@ -96,15 +109,45 @@ namespace EventosWebApp.Controllers
         // POST: EventosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<HttpStatusCode> Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             HttpClient client = _api.Initial();
             HttpResponseMessage response = await client.DeleteAsync($"api/Eventos/{id}");
-            return response.StatusCode;
+            return RedirectToAction("Index");
         }
 
         public ActionResult Filter()
         {
+            return View();
+        }
+
+
+        public ActionResult addToFavorite(int id)
+        {
+           
+            
+            Favorito favorito = new Favorito();
+            var idEvento = favorito.EventosId;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (db.Favoritos.Where(x => x.EventosId == id.ToString()).Where(y => y.UserId == userId.ToString()).Count() == 0){
+                var idFav = db.Favoritos.ToList().Count();
+
+                favorito.FavoritosId = idFav + 1;
+
+
+
+                favorito.EventosId = id.ToString();
+
+
+                favorito.UserId = userId;
+
+                db.Favoritos.Add(favorito);
+                db.SaveChanges();
+            }
+
+            
+            
             return View();
         }
     }

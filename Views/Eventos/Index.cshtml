@@ -78,10 +78,15 @@
                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                 {
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Editar", "Edit", new {  id=item.Id  }) |
+                        @Html.ActionLink("Apagar", "Delete", new { id = item.Id })
                     </td>}
+                else if(SignInManager.IsSignedIn(User) && User.IsInRole("Cliente"))
+                {
+                    <td asp-controller="Favoritos" asp-action="Create" >
+                        @Html.ActionLink("Adicionar aos favoritos", "addToFavorite", new {  id=item.Id  }) 
+                    </td>
+                }
             </tr>
         }
     </tbody>

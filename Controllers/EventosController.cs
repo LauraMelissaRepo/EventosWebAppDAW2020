@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace EventosWebApp.Controllers
@@ -26,7 +28,6 @@ namespace EventosWebApp.Controllers
             {
                 var result = res.Content.ReadAsStringAsync().Result;
                 eventos = JsonConvert.DeserializeObject<List<Evento>>(result);
-
             }
 
             return View(eventos);
@@ -46,17 +47,15 @@ namespace EventosWebApp.Controllers
 
         // POST: EventosController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public async Task<Uri> Create(Evento evento)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient client = _api.Initial();
+            HttpResponseMessage response = await client.PostAsJsonAsync( "api/Eventos", evento);
+            response.EnsureSuccessStatusCode();
+
+        
+            return response.Headers.Location;
         }
 
         // GET: EventosController/Edit/5
@@ -68,37 +67,40 @@ namespace EventosWebApp.Controllers
         // POST: EventosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<Evento> Edit(int id, Evento evento)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient client = _api.Initial();
+            HttpResponseMessage response = await client.PutAsJsonAsync(
+                $"api/Eventos/{id}", evento);
+            response.EnsureSuccessStatusCode();
+
+            evento = await response.Content.ReadFromJsonAsync<Evento>();
+
+            return evento;
         }
 
         // GET: EventosController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            HttpClient client = _api.Initial();
+            Evento evento = null;
+            HttpResponseMessage res = await client.GetAsync($"api/Eventos/{id}");
+
+            if (res.IsSuccessStatusCode)
+            {
+                evento = await res.Content.ReadFromJsonAsync<Evento>();
+            }
+            return View(evento);
         }
 
         // POST: EventosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<HttpStatusCode> Delete(int id, IFormCollection collection)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient client = _api.Initial();
+            HttpResponseMessage response = await client.DeleteAsync($"api/Eventos/{id}");
+            return response.StatusCode;
         }
 
         public ActionResult Filter()

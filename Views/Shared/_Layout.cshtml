@@ -34,13 +34,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Eventos" asp-action="Filter">Consultar Eventos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="EventosAdmin" asp-action="Create">Inserir Eventos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Eventos" asp-action="Create">Inserir Eventos</a>
                             </li>
                          }
                          else if (SignInManager.IsSignedIn(User))
                          {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="EventosCliente" asp-action="Index">Consultar Eventos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Eventos" asp-action="Filter">Consultar Eventos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Favoritos" asp-action="Index">Eventos Favoritos</a>

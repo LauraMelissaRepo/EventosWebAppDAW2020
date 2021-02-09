@@ -17,8 +17,8 @@ namespace EventosWebApp.Models.ModelsAPI
 
         [Required]
         [Display(Name = "Data e Hora")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public DateTime Data { get; set; }
 
         public string Estado { get; set; }

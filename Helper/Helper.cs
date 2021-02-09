@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace EventosWebApp.Helper
@@ -12,7 +13,7 @@ namespace EventosWebApp.Helper
         public HttpClient Initial()
         {
             var Client = new HttpClient();
-            Client.BaseAddress = new Uri("http://localhost:61004/");
+            Client.BaseAddress = new Uri("https://localhost:44301/");
             return Client;
 
         }

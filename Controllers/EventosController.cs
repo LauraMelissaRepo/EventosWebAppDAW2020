@@ -130,24 +130,42 @@ namespace EventosWebApp.Controllers
 
         public ActionResult addToFavorite(int id)
         {
-
             Favorito favorito = new Favorito();
             var idEvento = favorito.EventosId;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            //se não houver nenhum evento com o mesmo id, ele adiciona
             if (db.Favoritos.Where(x => x.EventosId == id.ToString()).Where(y => y.UserId == userId.ToString()).Count() == 0)
             {
-                //var idFav = db.Favoritos.ToList().Count();
-
-                //favorito.FavoritosId = idFav + 1;
                 favorito.EventosId = id.ToString();
                 favorito.UserId = userId;
 
                 db.Favoritos.Add(favorito);
                 db.SaveChanges();
 
+                return RedirectToAction("AdicionadaAoFav");
+                
             }
-            return RedirectToAction("AdicionadaAoFav");
+            return View();
         }
+
+        //public async Task<IActionResult> returnEventosFavoritos()
+        //{
+        //    List<Evento> eventos = new List<Evento>();
+        //    HttpClient client = _api.Initial();
+          
+        //    Favorito fav = new Favorito();
+        //    var idevento = fav.EventosId;
+
+        //    HttpResponseMessage res = await client.GetAsync($"api/Eventos/{idevento}");
+
+        //    if (res.IsSuccessStatusCode)
+        //    {
+        //        var result = res.Content.ReadAsStringAsync().Result;
+        //        eventos = JsonConvert.DeserializeObject<List<Evento>>(result);
+        //    }
+
+        //    return View(eventos);
+        //}
     }
 }

@@ -83,7 +83,7 @@
                     </td>}
                 else if(SignInManager.IsSignedIn(User) && User.IsInRole("Cliente"))
                 {
-                    <td>
+                    <td data-target="#exampleModal" data-toggle="modal">
                         @Html.ActionLink("Adicionar aos favoritos", "addToFavorite", new {  id=item.Id  }) 
                     </td>
                 }

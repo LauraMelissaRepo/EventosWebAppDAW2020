@@ -1,0 +1,24 @@
+@model IEnumerable<EventosWebApp.Models.ModelsAPI.Local>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<center>
+    <select>
+        <option value="" selected disabled>-- Locais --</option>
+        @foreach (var item in Model)
+        {
+
+            var listLocal = new List<string>();
+
+            if (!listLocal.Contains(item.Localidade.ToString()))
+            {
+                <option>
+                    @item.Localidade
+                </option>
+            }
+            listLocal.Add(item.Localidade.ToString());
+        }
+    </select>
+</center>
+

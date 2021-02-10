@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EventosWebApp.Models;
+using EventosWebApp.Models.ModelsAPI;
+using System.Dynamic;
 
 namespace EventosWebApp.Controllers
 {
@@ -18,12 +20,14 @@ namespace EventosWebApp.Controllers
             _context = context;
         }
 
-        // GET: Favoritos
+        //GET: Favoritos
         public async Task<IActionResult> Index()
         {
-            var eventosWebAppContext = _context.Favoritos.Include(f => f.User);
-            return View(await eventosWebAppContext.ToListAsync());
+            var fav = _context.Favoritos.Include(f => f.User);
+
+            return View(await fav.ToListAsync());
         }
+
 
         // GET: Favoritos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -151,15 +155,6 @@ namespace EventosWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
-        public async Task<IActionResult> AddToFavorite(int id)
-        {
-            
-
-
-            return RedirectToAction();
-        }
 
         private bool FavoritoExists(int id)
         {

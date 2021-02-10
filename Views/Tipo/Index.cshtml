@@ -1,0 +1,16 @@
+@model IEnumerable<EventosWebApp.Models.ModelsAPI.Tipo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<center>
+    <select>
+        <option value="" selected disabled>-- Tipos --</option>
+        @foreach(var item in Model)
+        {
+            <option>
+                @item.TipoEvento
+            </option>
+        }
+    </select>
+</center>

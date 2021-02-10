@@ -83,7 +83,7 @@
                     </td>}
                 else if(SignInManager.IsSignedIn(User) && User.IsInRole("Cliente"))
                 {
-                    <td asp-controller="Favoritos" asp-action="Create" >
+                    <td>
                         @Html.ActionLink("Adicionar aos favoritos", "addToFavorite", new {  id=item.Id  }) 
                     </td>
                 }

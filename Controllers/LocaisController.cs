@@ -6,55 +6,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Net.Http.Json;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace EventosWebApp.Controllers
 {
-    public class TipoController : Controller
+    public class LocaisController : Controller
     {
         EventosWebAPI _api = new EventosWebAPI();
 
-        // GET: TipoController
+        // GET: LocaisController
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Tipo> tipos = null;
+            IEnumerable<Local> locais = null;
 
             HttpClient client = _api.Initial();
-            var res = client.GetAsync("api/Tipos");
+            var res = client.GetAsync("api/Locais");
             res.Wait();
 
             var resultDisplay = res.Result;
-            if(resultDisplay.IsSuccessStatusCode)
+            if (resultDisplay.IsSuccessStatusCode)
             {
-                var readData = resultDisplay.Content.ReadFromJsonAsync<List<Tipo>>();
+                var readData = resultDisplay.Content.ReadFromJsonAsync<List<Local>>();
                 readData.Wait();
-                tipos = readData.Result;
+                locais = readData.Result;
             }
             else
             {
-                tipos = Enumerable.Empty<Tipo>();
+                locais = Enumerable.Empty<Local>();
                 ModelState.AddModelError(string.Empty, "Nenhum tipo encontrado");
             }
 
-            return View(tipos);
-
+            return View(locais);
         }
 
-        // GET: TipoController/Details/5
+        // GET: LocaisController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: TipoController/Create
+        // GET: LocaisController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: TipoController/Create
+        // POST: LocaisController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -69,13 +67,13 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        // GET: TipoController/Edit/5
+        // GET: LocaisController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: TipoController/Edit/5
+        // POST: LocaisController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -90,13 +88,13 @@ namespace EventosWebApp.Controllers
             }
         }
 
-        // GET: TipoController/Delete/5
+        // GET: LocaisController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: TipoController/Delete/5
+        // POST: LocaisController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

@@ -14,13 +14,14 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
+
 namespace EventosWebApp.Controllers
 {
     public class EventosController : Controller
     {
 
         private EventosWebAppContext db = new EventosWebAppContext();
-        SignInManager<IdentityUser> signinmanager;
+        
         EventosWebAPI _api = new EventosWebAPI();
 
         // GET: EventosController
@@ -60,7 +61,7 @@ namespace EventosWebApp.Controllers
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Eventos", evento);
             response.EnsureSuccessStatusCode();
 
-        
+
             return RedirectToAction("Index");
         }
 
@@ -121,34 +122,32 @@ namespace EventosWebApp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> AdicionadaAoFav()
+        {
+            return View();
+        }
+
 
         public ActionResult addToFavorite(int id)
         {
-           
-            
+
             Favorito favorito = new Favorito();
             var idEvento = favorito.EventosId;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (db.Favoritos.Where(x => x.EventosId == id.ToString()).Where(y => y.UserId == userId.ToString()).Count() == 0){
-                var idFav = db.Favoritos.ToList().Count();
+            if (db.Favoritos.Where(x => x.EventosId == id.ToString()).Where(y => y.UserId == userId.ToString()).Count() == 0)
+            {
+                //var idFav = db.Favoritos.ToList().Count();
 
-                favorito.FavoritosId = idFav + 1;
-
-
-
+                //favorito.FavoritosId = idFav + 1;
                 favorito.EventosId = id.ToString();
-
-
                 favorito.UserId = userId;
 
                 db.Favoritos.Add(favorito);
                 db.SaveChanges();
-            }
 
-            
-            
-            return View();
+            }
+            return RedirectToAction("AdicionadaAoFav");
         }
     }
 }

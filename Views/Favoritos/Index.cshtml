@@ -1,4 +1,4 @@
-@model IEnumerable<EventosWebApp.Models.Favorito>
+@model IEnumerable<EventosWebApp.Models.Favorito> 
 
 @{
     ViewData["Title"] = "Eventos Favoritos";
@@ -33,13 +33,13 @@
             <th>
                 Estado
             </th>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => model.EventosId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
-            <th></th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -52,8 +52,6 @@
                 @Html.DisplayFor(modelItem => item.User.Id)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FavoritosId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FavoritosId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.FavoritosId">Delete</a>
             </td>
         </tr>

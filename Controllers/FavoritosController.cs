@@ -13,7 +13,6 @@ namespace EventosWebApp.Controllers
     {
         private readonly EventosWebAppContext _context;
 
-
         public FavoritosController(EventosWebAppContext context)
         {
             _context = context;

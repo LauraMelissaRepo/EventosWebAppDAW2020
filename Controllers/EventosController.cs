@@ -77,6 +77,8 @@ namespace EventosWebApp.Controllers
                 evento = await res.Content.ReadFromJsonAsync<Evento>();
                 return View(evento);
             }
+            res.EnsureSuccessStatusCode();
+
             return View(evento);
         }
 

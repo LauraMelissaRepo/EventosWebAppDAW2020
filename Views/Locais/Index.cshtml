@@ -6,19 +6,20 @@
 <center>
     <select>
         <option value="" selected disabled>-- Locais --</option>
-        @foreach (var item in Model)
-        {
-
+        @{
             var listLocal = new List<string>();
-
-            if (!listLocal.Contains(item.Localidade.ToString()))
+            @foreach (var item in Model)
             {
-                <option>
-                    @item.Localidade
-                </option>
+
+                if (!listLocal.Contains(item.Localidade.ToString()))
+                {
+                    <option>
+                        @item.Localidade
+                    </option>
+                }
+                listLocal.Add(item.Localidade.ToString());
             }
-            listLocal.Add(item.Localidade.ToString());
-        }
+         }
     </select>
 </center>
 

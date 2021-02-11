@@ -9,27 +9,29 @@
 
 </p>
 
-<div>
-    <label>Data do Evento</label>
-    <input id="data_evento" type="date" />
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="row">
+        <div class="col">
+            <label>Data do Evento</label>
+            <input id="data_evento" type="date" name="data_evento"/>
+        </div>
+        <div class="col">
+            <label>Tipos de evento</label>
+            @Html.DropDownList("TipoEvento", ViewBag.Tipos as SelectList, htmlAttributes: new { @class = "form-control" , @name = "tipoEvento" })
+        </div>
+        <div class="col">
+            <label>Localidades</label>
+            @Html.DropDownList("Localidade", (SelectList)ViewBag.Localidades, htmlAttributes: new { @class = "form-control", @name = "localidade"})
+        </div>
+        <div class="col">
+            <label></label>
+            <input id="confirmar_filtros_btn" type="submit" value="Confirmar" formmethod="post" class="btn btn-outline-dark" />
+        </div>
+    </div>
+ }
 
-    <label>Tipo de Evento</label>
-    <select id="tipo_evento">
-        <option disabled selected tipo_evento>Selecione uma opção</option>
-        <option>Teatro</option>
-        <option>Dança</option>
-    </select>
-
-    <label>Localidade</label>
-    <select id="localidade">
-        <option disabled selected localidade>Selecione uma opção</option>
-        <option>Albufeira</option>
-        <option>Loulé</option>
-    </select>
-
-    <input id="confirmar_filtros_btn" type="button" value="Confirmar" class="btn btn-outline-dark" />
-    OU
+<div class="col">
     <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark" value="Mostrar eventos">Mostrar eventos</a>
-
 </div>
 

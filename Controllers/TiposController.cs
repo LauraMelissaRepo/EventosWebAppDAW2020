@@ -19,6 +19,7 @@ namespace EventosWebApp.Controllers
         // GET: TipoController
         public async Task<IActionResult> Index()
         {
+            
             IEnumerable<Tipo> tipos = null;
 
             HttpClient client = _api.Initial();
@@ -39,7 +40,6 @@ namespace EventosWebApp.Controllers
             }
 
             return View(tipos);
-
         }
 
         // GET: TipoController/Details/5

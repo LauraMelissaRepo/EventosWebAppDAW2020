@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Security.Claims;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EventosWebApp.Controllers
 {
@@ -21,7 +21,7 @@ namespace EventosWebApp.Controllers
     {
 
         private EventosWebAppContext db = new EventosWebAppContext();
-        
+
         EventosWebAPI _api = new EventosWebAPI();
 
         // GET: EventosController
@@ -38,6 +38,13 @@ namespace EventosWebApp.Controllers
             }
 
             return View(eventos);
+        }
+
+        [HttpPost]
+        public ActionResult Filter(DateTime data_evento, int tipoEvento, int localidade)
+        {
+            throw new Exception("Evento: " + tipoEvento + ", data:" + data_evento + ", localidade:" + localidade);
+            return View();
         }
 
         // GET: EventosController/Details/5
@@ -121,6 +128,53 @@ namespace EventosWebApp.Controllers
 
         public ActionResult Filter()
         {
+            #region get Tipos
+
+            IEnumerable<Tipo> tipos = null;
+
+            HttpClient client = _api.Initial();
+            var res = client.GetAsync("api/Tipos");
+            res.Wait();
+
+            var resultDisplay = res.Result;
+            if (resultDisplay.IsSuccessStatusCode)
+            {
+                var readData = resultDisplay.Content.ReadFromJsonAsync<List<Tipo>>();
+                readData.Wait();
+                tipos = readData.Result;
+            }
+            else
+            {
+                tipos = Enumerable.Empty<Tipo>();
+                ModelState.AddModelError(string.Empty, "Nenhum tipo encontrado");
+            }
+
+            ViewBag.Tipos = new SelectList(tipos, "Id", "TipoEvento");
+            #endregion
+
+            #region get Localidade
+
+            IEnumerable<Local> locais = null;
+
+            res = client.GetAsync("api/Locais");
+            res.Wait();
+
+            resultDisplay = res.Result;
+            if (resultDisplay.IsSuccessStatusCode)
+            {
+                var readData = resultDisplay.Content.ReadFromJsonAsync<List<Local>>();
+                readData.Wait();
+                locais = readData.Result;
+            }
+            else
+            {
+                locais = Enumerable.Empty<Local>();
+                ModelState.AddModelError(string.Empty, "Nenhum tipo encontrado");
+            }
+
+            ViewBag.Localidades = new SelectList(locais, "Id", "Localidade");
+
+            #endregion
             return View();
         }
 
@@ -146,7 +200,7 @@ namespace EventosWebApp.Controllers
                 db.SaveChanges();
 
                 return RedirectToAction("AdicionadaAoFav");
-                
+
             }
             return View();
         }
@@ -155,7 +209,7 @@ namespace EventosWebApp.Controllers
         //{
         //    List<Evento> eventos = new List<Evento>();
         //    HttpClient client = _api.Initial();
-          
+
         //    Favorito fav = new Favorito();
         //    var idevento = fav.EventosId;
 

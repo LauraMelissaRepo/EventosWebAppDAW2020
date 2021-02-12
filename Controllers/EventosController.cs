@@ -40,9 +40,6 @@ namespace EventosWebApp.Controllers
             return View(eventos);
         }
 
-
-       
-
         // GET: EventosController/Details/5
         public ActionResult Details(int id)
         {
@@ -176,22 +173,43 @@ namespace EventosWebApp.Controllers
         }
 
         [HttpPost]
-        public  async Task<IActionResult> Filter(DateTime data_evento, int tipoEvento, int localidade)
+        public async Task<IActionResult> Filter(DateTime data_evento, int tipoEvento, int localidade)
         {
-           // throw new Exception("Evento: " + tipoEvento + ", data:" + data_evento + ", localidade:" + localidade);
+            //String dataForRequest = data_evento.ToString("yyyy-MM-dd");
+            String mes_evento = data_evento.Month.ToString();
+            //throw new Exception($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{dataForRequest}");
+            List<Evento> eventosFilter = new List<Evento>();
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{mes_evento}");
 
-            //List<Evento> eventosFilter = new List<Evento>();
-            //HttpClient client = _api.Initial();
-            //HttpResponseMessage res = await client.GetAsync($"api/tipo/{tipoEventoId}/evento/{localId}/local/{data}/data");
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(res);
+            }
 
-            //if (res.IsSuccessStatusCode)
-            //{
-            //    var result = res.Content.ReadAsStringAsync().Result;
-            //    eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
-            //}
-
-            return View();
+            res.EnsureSuccessStatusCode();
+            return View("SearchFilters", eventosFilter);
         }
+
+        //private async Task<List<Evento>> getFilteredEventos(DateTime data_evento, int tipoEvento, int localidade)
+        //{
+        //    List<Evento> eventosFilter = new List<Evento>();
+        //    HttpClient client = _api.Initial();
+        //    HttpResponseMessage res = await client.GetAsync($"api/tipo/{tipoEvento}/evento/{data_evento}/local/{localidade}/data");
+
+        //    if (res.IsSuccessStatusCode)
+        //    {
+        //        var result = res.Content.ReadAsStringAsync().Result;
+        //        eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+        //    }
+
+        //    return eventosFilter;
+        //}
 
         public async Task<IActionResult> AdicionadaAoFav()
         {
@@ -258,6 +276,27 @@ namespace EventosWebApp.Controllers
                 }
             } 
             return View(eventosUser);
+        }
+
+
+        public async Task<List<Tipo>> GetTypesofEvents()
+        {
+            System.Diagnostics.Debug.WriteLine("CHEGAME AOS TIPOS IDNEX");
+            List<Tipo> tipos = new List<Tipo>();
+
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/Tipos");
+            if (res.IsSuccessStatusCode)
+            {
+                var readData = await res.Content.ReadFromJsonAsync<List<Tipo>>();
+                tipos = readData;
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Nenhum tipo encontrado");
+            }
+
+            return tipos;
         }
     }
 }

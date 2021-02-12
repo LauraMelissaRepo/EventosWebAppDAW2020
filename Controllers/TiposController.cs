@@ -17,29 +17,24 @@ namespace EventosWebApp.Controllers
         EventosWebAPI _api = new EventosWebAPI();
 
         // GET: TipoController
-        public async Task<IActionResult> Index()
+        public async Task<List<Tipo>> Index()
         {
-            
-            IEnumerable<Tipo> tipos = null;
+            System.Diagnostics.Debug.WriteLine("CHEGAME AOS TIPOS IDNEX");
+            List<Tipo> tipos = new List<Tipo>();
 
             HttpClient client = _api.Initial();
-            var res = client.GetAsync("api/Tipos");
-            res.Wait();
-
-            var resultDisplay = res.Result;
-            if(resultDisplay.IsSuccessStatusCode)
+            HttpResponseMessage res = await client.GetAsync("api/Tipos");
+            if(res.IsSuccessStatusCode)
             {
-                var readData = resultDisplay.Content.ReadFromJsonAsync<List<Tipo>>();
-                readData.Wait();
-                tipos = readData.Result;
+                var readData = await res.Content.ReadFromJsonAsync<List<Tipo>>();
+                tipos = readData;
             }
             else
             {
-                tipos = Enumerable.Empty<Tipo>();
                 ModelState.AddModelError(string.Empty, "Nenhum tipo encontrado");
             }
 
-            return View(tipos);
+            return tipos;
         }
 
         // GET: TipoController/Details/5

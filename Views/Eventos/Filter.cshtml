@@ -8,8 +8,7 @@
 
 
 </p>
-@using (Html.BeginForm(FormMethod.Post))
-{
+<form method="POST" onsubmit="searchEvents()">
     <div class="row">
         <div class="col">
             <label>Data do Evento</label>
@@ -25,12 +24,36 @@
         </div>
         <div class="col">
             <label></label>
-            <input id="confirmar_filtros_btn" type="submit" value="Confirmar" formmethod="post" class="btn btn-outline-dark" />
+            <input id="confirmar_filtros_btn" type="submit" value="Confirmar" class="btn btn-outline-dark" />
         </div>
     </div>
-}
+</form>
 
 <div class="col">
     <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark" value="Mostrar eventos">Mostrar eventos</a>
-
 </div>
+
+<script>
+    function searchEvents() {
+        var dataSelected = document.getElementById("data_evento");
+        var tipoSelected = document.getElementById("TipoEvento");
+        var localidadeSelected = document.getElementById("Localidade");
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Filter", "Eventos")',
+            accepts: "*/*",
+            data: {
+                data_evento: dataSelected,
+                tipoEvento: tipoSelected,
+                localidade: localidadeSelected
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            failure: function (response) {
+                console.log(response.responseText);
+            },
+        });
+    }
+    
+</script>

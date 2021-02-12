@@ -40,12 +40,8 @@ namespace EventosWebApp.Controllers
             return View(eventos);
         }
 
-        [HttpPost]
-        public ActionResult Filter(DateTime data_evento, int tipoEvento, int localidade)
-        {
-            throw new Exception("Evento: " + tipoEvento + ", data:" + data_evento + ", localidade:" + localidade);
-            return View();
-        }
+
+       
 
         // GET: EventosController/Details/5
         public ActionResult Details(int id)
@@ -176,6 +172,25 @@ namespace EventosWebApp.Controllers
 
             #endregion
             return View();
+         
+        }
+
+        [HttpPost]
+        public  async Task<IActionResult> Filter(DateTime data_evento, int tipoEvento, int localidade)
+        {
+           // throw new Exception("Evento: " + tipoEvento + ", data:" + data_evento + ", localidade:" + localidade);
+
+            //List<Evento> eventosFilter = new List<Evento>();
+            //HttpClient client = _api.Initial();
+            //HttpResponseMessage res = await client.GetAsync($"api/tipo/{tipoEventoId}/evento/{localId}/local/{data}/data");
+
+            //if (res.IsSuccessStatusCode)
+            //{
+            //    var result = res.Content.ReadAsStringAsync().Result;
+            //    eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+            //}
+
+            return View();
         }
 
         public async Task<IActionResult> AdicionadaAoFav()
@@ -205,23 +220,44 @@ namespace EventosWebApp.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> returnEventosFavoritos()
-        //{
-        //    List<Evento> eventos = new List<Evento>();
-        //    HttpClient client = _api.Initial();
 
-        //    Favorito fav = new Favorito();
-        //    var idevento = fav.EventosId;
+        public async Task<IActionResult> DeleteFavorito(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        //    HttpResponseMessage res = await client.GetAsync($"api/Eventos/{idevento}");
+            var idfav = db.Favoritos.Where(y => y.EventosId == id.ToString()).Where(x => x.UserId == userId).ToList();
+            
+            db.Favoritos.Remove(idfav[0]);
+            await db.SaveChangesAsync();
 
-        //    if (res.IsSuccessStatusCode)
-        //    {
-        //        var result = res.Content.ReadAsStringAsync().Result;
-        //        eventos = JsonConvert.DeserializeObject<List<Evento>>(result);
-        //    }
+            return RedirectToAction("returnEventosFavoritos");
+        }
+        
 
-        //    return View(eventos);
-        //}
+        public async Task<IActionResult> returnEventosFavoritos()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Favorito> favoritosUserId = db.Favoritos.Where(x => x.UserId == userId).ToList();      
+
+            Evento evento = null;
+            List<Evento> eventosUser = new List<Evento>();
+
+            for (int i = 0 ; i < favoritosUserId.Count() ; i ++){
+
+                HttpClient client = _api.Initial();
+                var id = favoritosUserId[i].EventosId;
+
+                HttpResponseMessage res = await client.GetAsync($"api/Eventos/{id}");
+
+                var result = res.Content.ReadAsStringAsync().Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    evento = await res.Content.ReadFromJsonAsync<Evento>();
+                    eventosUser.Add(evento);
+                }
+            } 
+            return View(eventosUser);
+        }
     }
 }

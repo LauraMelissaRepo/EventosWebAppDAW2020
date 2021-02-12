@@ -8,30 +8,29 @@
 
 
 </p>
-
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="row">
         <div class="col">
             <label>Data do Evento</label>
-            <input id="data_evento" type="date" name="data_evento"/>
+            <input id="data_evento" type="date" name="data_evento" />
         </div>
         <div class="col">
             <label>Tipos de evento</label>
-            @Html.DropDownList("TipoEvento", ViewBag.Tipos as SelectList, htmlAttributes: new { @class = "form-control" , @name = "tipoEvento" })
+            @Html.DropDownList("TipoEvento", ViewBag.Tipos as SelectList, htmlAttributes: new { @class = "form-control", @name = "tipoEvento" })
         </div>
         <div class="col">
             <label>Localidades</label>
-            @Html.DropDownList("Localidade", (SelectList)ViewBag.Localidades, htmlAttributes: new { @class = "form-control", @name = "localidade"})
+            @Html.DropDownList("Localidade", (SelectList)ViewBag.Localidades, htmlAttributes: new { @class = "form-control", @name = "localidade" })
         </div>
         <div class="col">
             <label></label>
             <input id="confirmar_filtros_btn" type="submit" value="Confirmar" formmethod="post" class="btn btn-outline-dark" />
         </div>
     </div>
- }
+}
 
 <div class="col">
     <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark" value="Mostrar eventos">Mostrar eventos</a>
-</div>
 
+</div>

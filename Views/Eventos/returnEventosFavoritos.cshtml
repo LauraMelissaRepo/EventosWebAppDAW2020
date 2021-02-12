@@ -1,4 +1,4 @@
-﻿@model EventosWebApp.Models.ModelsAPI.Evento
+@model IEnumerable<EventosWebApp.Models.ModelsAPI.Evento>
 
 @{
     ViewData["Title"] = "returnEventosFavoritos";
@@ -6,50 +6,70 @@
 
 <h1>returnEventosFavoritos</h1>
 
-<h4>Evento</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="returnEventosFavoritos">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoId" class="control-label"></label>
-                <input asp-for="TipoId" class="form-control" />
-                <span asp-validation-for="TipoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LocalId" class="control-label"></label>
-                <input asp-for="LocalId" class="form-control" />
-                <span asp-validation-for="LocalId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo.TipoEvento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local.NomeLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local.Morada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local.Localidade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo.TipoEvento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Local.NomeLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Local.Morada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Local.Localidade)
+            </td>
+            <td>
+                @Html.ActionLink("Apagar", "DeleteFavorito", new {  id=item.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

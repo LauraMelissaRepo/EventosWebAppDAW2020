@@ -32,21 +32,19 @@
                 <input asp-for="Estado" class="form-control" />
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="TipoId" class="control-label"></label>
+            <input asp-for="TipoId" class="form-control" />
+            <span asp-validation-for="TipoId" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="TipoId" class="control-label"></label>
-                <input asp-for="TipoId" class="form-control" />
-                <span asp-validation-for="TipoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tipo.TipoEvento" class="control-label"></label>
-                <input asp-for="Tipo.TipoEvento" class="form-control" />
+                <select asp-for="TipoId" id="typeEventSelect" class="form-control">
+                    <option selected disabled>Tipo de Evento</option>
+                </select>
                 <span asp-validation-for="Tipo.TipoEvento" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LocalId" class="control-label"></label>
-                <input asp-for="LocalId" class="form-control" />
-                <span asp-validation-for="LocalId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="LocalId"/>
             <div class="form-group">
                 <label asp-for="Local.NomeLocal" class="control-label"></label>
                 <input asp-for="Local.NomeLocal" class="form-control" />
@@ -72,7 +70,35 @@
 <div>
     <a asp-action="Index">Voltar para a lista de eventos</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<script>
+    window.onload = getEventTypes;
+    var type_select_dropdown = document.getElementById("typeEventSelect");
+    var event_type = @Model.Tipo.Id;
+    function getEventTypes() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetTypesofEvents")',
+            accepts: "*/*",
+            success: function (data) {
+                for (var type_item = 0; type_item < data.length; type_item++) {
+                    var newTypeOption = document.createElement("option");
+                    newTypeOption.value = data[type_item].id;
+                    newTypeOption.text = data[type_item].tipoEvento;
+                    type_select_dropdown.appendChild(newTypeOption);
+                    if (data[type_item].id == event_type) {
+                        newTypeOption.selected = true;
+                    }
+                }
+                console.log(data);
+            },
+            failure: function (response) {
+                console.log(response.responseText);
+            },
+        });
+    }
+</script>

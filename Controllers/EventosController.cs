@@ -88,6 +88,8 @@ namespace EventosWebApp.Controllers
         public async Task<IActionResult> Edit(int id, Evento evento)
         {
             HttpClient client = _api.Initial();
+            System.Diagnostics.Debug.WriteLine("Nome : " + evento.Titulo + "data: " + evento.Data + "estado: " + evento.Estado + "tipo Id" + evento.TipoId + "tipo" + evento.Tipo + "LocalId " + evento.LocalId + " local " + evento.Local.NomeLocal );
+
             HttpResponseMessage response = await client.PutAsJsonAsync($"api/Eventos/{id}", evento);
 
             response.EnsureSuccessStatusCode();

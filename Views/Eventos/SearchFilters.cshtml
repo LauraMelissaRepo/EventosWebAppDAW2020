@@ -1,4 +1,7 @@
 @model IEnumerable<EventosWebApp.Models.ModelsAPI.Evento>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -6,9 +9,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Titulo)
             </th>
@@ -19,41 +22,61 @@
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoId)
+                @Html.DisplayNameFor(model => model.Tipo.TipoEvento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LocalId)
+                @Html.DisplayNameFor(model => model.Local.NomeLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local.Morada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local.Localidade)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo.TipoEvento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Local.NomeLocal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Local.Morada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Local.Localidade)
+                </td>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Apagar", "Delete", new { id = item.Id })
+                    </td>
+                }
+                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cliente"))
+                {
+                    <td data-target="#exampleModal" data-toggle="modal">
+                        @Html.ActionLink("Adicionar aos favoritos", "addToFavorite", new { id = item.Id })
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>

@@ -14,6 +14,8 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace EventosWebApp.Controllers
 {
@@ -37,16 +39,12 @@ namespace EventosWebApp.Controllers
                 eventos = JsonConvert.DeserializeObject<List<Evento>>(result);
             }
 
-            return View(eventos);
+            return PartialView(eventos);
         }
 
-        // GET: EventosController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         // GET: EventosController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -54,18 +52,19 @@ namespace EventosWebApp.Controllers
 
         // POST: EventosController/Create
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Evento evento)
         {
             HttpClient client = _api.Initial();
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Eventos", evento);
             response.EnsureSuccessStatusCode();
 
-
-            return RedirectToAction("Index");
+            ViewData["evento_criado"] = "O evento foi criado com sucesso!";
+            return View(evento);
         }
 
         // GET: EventosController/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             HttpClient client = _api.Initial();
@@ -85,6 +84,7 @@ namespace EventosWebApp.Controllers
         // POST: EventosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Evento evento)
         {
             HttpClient client = _api.Initial();
@@ -94,10 +94,12 @@ namespace EventosWebApp.Controllers
 
             response.EnsureSuccessStatusCode();
 
-            return RedirectToAction("Index");
+            ViewData["evento_editado"] = "O evento foi editado com sucesso!";
+            return View(evento);
         }
 
         // GET: EventosController/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             HttpClient client = _api.Initial();
@@ -114,11 +116,21 @@ namespace EventosWebApp.Controllers
         // POST: EventosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             HttpClient client = _api.Initial();
             HttpResponseMessage response = await client.DeleteAsync($"api/Eventos/{id}");
-            return RedirectToAction("Index");
+
+            List<Favorito> listfavDelete =  db.Favoritos.Where(x => x.EventosId == id.ToString()).ToList();
+
+            foreach(Favorito idfav in listfavDelete)
+            {
+                db.Favoritos.Remove(idfav);
+                await db.SaveChangesAsync();
+            }
+
+            return View("ApagadoSucesso");
         }
 
         public ActionResult Filter()
@@ -231,6 +243,7 @@ namespace EventosWebApp.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var idfav = db.Favoritos.Where(y => y.EventosId == id.ToString()).Where(x => x.UserId == userId).ToList();
+
             
             db.Favoritos.Remove(idfav[0]);
             await db.SaveChangesAsync();
@@ -268,7 +281,7 @@ namespace EventosWebApp.Controllers
 
         public async Task<List<Tipo>> GetTypesofEvents()
         {
-            System.Diagnostics.Debug.WriteLine("CHEGAME AOS TIPOS IDNEX");
+            
             List<Tipo> tipos = new List<Tipo>();
 
             HttpClient client = _api.Initial();

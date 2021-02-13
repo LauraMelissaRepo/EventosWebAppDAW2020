@@ -6,16 +6,18 @@
 
 <h1>Eliminar</h1>
 
+
+
 <h3>Tem a certeza que pretende eliminar este evento?</h3>
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>*@
+        @*<dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Titulo)
         </dt>
@@ -59,9 +61,9 @@
             @Html.DisplayFor(model => model.Local.Localidade)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="submit" value="Apagar" class="btn btn-danger" /> |
-        <a asp-action="Index">Voltar para a lista de eventos</a>
+        <a asp-action="Filter">Voltar para a lista de eventos</a>
     </form>
 </div>

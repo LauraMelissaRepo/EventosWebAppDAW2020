@@ -8,15 +8,21 @@
 
 <h4>Evento</h4>
 <hr />
+@if (ViewData["evento_criado"] != null)
+{
+<div class="alert alert-success" role="alert">
+    @ViewData["evento_criado"]
+</div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
@@ -35,7 +41,7 @@
             <div class="form-group">
                 <label asp-for="Tipo.TipoEvento" class="control-label"></label>
                 <select asp-for="TipoId" id="typeEventSelect" class="form-control">
-                   <option>Tipo de Evento </option>
+                    <option>Tipo de Evento </option>
                 </select>
                 <span asp-validation-for="Tipo.TipoEvento" class="text-danger"></span>
             </div>
@@ -62,7 +68,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Voltar para a lista de eventos</a>
+    <a asp-action="Filter">Voltar para a lista de eventos</a>
 </div>
 
 @section Scripts {

@@ -8,15 +8,21 @@
 
 <h4>Evento</h4>
 <hr />
+@if (ViewData["evento_editado"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewData["evento_editado"]
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
@@ -33,10 +39,10 @@
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-            <label asp-for="TipoId" class="control-label"></label>
-            <input asp-for="TipoId" class="form-control" />
-            <span asp-validation-for="TipoId" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="TipoId" class="control-label"></label>
+                    <input asp-for="TipoId" class="form-control" />
+                    <span asp-validation-for="TipoId" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="TipoId" class="control-label"></label>
                 <select asp-for="TipoId" id="typeEventSelect" class="form-control">
@@ -44,7 +50,7 @@
                 </select>
                 <span asp-validation-for="Tipo.TipoEvento" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="LocalId"/>
+            <input type="hidden" asp-for="LocalId" />
             <div class="form-group">
                 <label asp-for="Local.NomeLocal" class="control-label"></label>
                 <input asp-for="Local.NomeLocal" class="form-control" />
@@ -68,7 +74,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Voltar para a lista de eventos</a>
+    <a asp-action="Filter">Voltar para a lista de eventos</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -77,9 +83,10 @@
 
 <script>
     window.onload = getEventTypes;
-    var type_select_dropdown = document.getElementById("typeEventSelect");
-    var event_type = @Model.Tipo.Id;
+    
     function getEventTypes() {
+        var type_select_dropdown = document.getElementById("typeEventSelect");
+        var event_type = @Model.TipoId;
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetTypesofEvents")',

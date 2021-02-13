@@ -28,7 +28,7 @@
     </div>
 
 <div class="col">
-    <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark float-md-right" value="Mostrar eventos">Mostrar todos os eventos</a>
+    <button id="mostrar_todos_btn" onclick="returnTodosEventos()"  class="btn btn-outline-dark float-md-right" >Mostrar todos os eventos</button>
 </div>
 
 <div id="search_results"></div>
@@ -54,5 +54,21 @@
                 console.log(response.responseText);
             },
         });      
+    }
+</script>
+
+<script>
+    function returnTodosEventos() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Index", "Eventos")',
+            accepts: "*/*",
+            success: function (data) {
+                document.getElementById("search_results").innerHTML = data;
+            },
+            failure: function (response) {
+                console.log(response.responseText);
+            },
+        });
     }
 </script>

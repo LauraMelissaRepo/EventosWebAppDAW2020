@@ -171,15 +171,14 @@ namespace EventosWebApp.Controllers
 
             #endregion
             return View();
-         
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Filter(DateTime data_evento, int tipoEvento, int localidade)
+       
+        public async Task<IActionResult> SearchFilters(DateTime data_evento, int tipoEvento, int localidade)
         {
-            //String dataForRequest = data_evento.ToString("yyyy-MM-dd");
+          
             String mes_evento = data_evento.Month.ToString();
-            //throw new Exception($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{dataForRequest}");
+           
             List<Evento> eventosFilter = new List<Evento>();
             HttpClient client = _api.Initial();
             HttpResponseMessage res = await client.GetAsync($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{mes_evento}");
@@ -195,24 +194,10 @@ namespace EventosWebApp.Controllers
             }
 
             res.EnsureSuccessStatusCode();
-            return View("SearchFilters", eventosFilter);
+            return PartialView(eventosFilter);
         }
 
-        //private async Task<List<Evento>> getFilteredEventos(DateTime data_evento, int tipoEvento, int localidade)
-        //{
-        //    List<Evento> eventosFilter = new List<Evento>();
-        //    HttpClient client = _api.Initial();
-        //    HttpResponseMessage res = await client.GetAsync($"api/tipo/{tipoEvento}/evento/{data_evento}/local/{localidade}/data");
-
-        //    if (res.IsSuccessStatusCode)
-        //    {
-        //        var result = res.Content.ReadAsStringAsync().Result;
-        //        eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
-        //    }
-
-        //    return eventosFilter;
-        //}
-
+        
         public async Task<IActionResult> AdicionadaAoFav()
         {
             return View();

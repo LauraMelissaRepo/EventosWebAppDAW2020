@@ -1,18 +1,17 @@
 
 @{
     ViewData["Title"] = "Filter";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  
 }
 <h3>Eventos que se irão realizar</h3>
 <p>
 
 
 </p>
-<form method="POST" onsubmit="searchEvents()">
     <div class="row">
         <div class="col">
             <label>Data do Evento</label>
-            <input id="data_evento" type="date" name="data_evento" />
+            <input id="data_evento"  type="date" name="data_evento" />
         </div>
         <div class="col">
             <label>Tipos de evento</label>
@@ -24,23 +23,24 @@
         </div>
         <div class="col">
             <label></label>
-            <input id="confirmar_filtros_btn" type="submit" value="Confirmar" class="btn btn-outline-dark mt-lg-4 ml-4" />
+            <button id="confirmar_filtros_btn" onclick="searchEvents()" class="btn btn-outline-dark mt-lg-4 ml-4"> Confirmar </button>
         </div>
     </div>
-</form>
 
 <div class="col">
     <a asp-controller="Eventos" asp-action="Index" id="mostrar_todos_btn" class="btn btn-outline-dark float-md-right" value="Mostrar eventos">Mostrar todos os eventos</a>
 </div>
 
+<div id="search_results"></div>
+
 <script>
     function searchEvents() {
-        var dataSelected = document.getElementById("data_evento");
-        var tipoSelected = document.getElementById("TipoEvento");
-        var localidadeSelected = document.getElementById("Localidade");
+        var dataSelected = document.getElementById("data_evento").value;
+        var tipoSelected = document.getElementById("TipoEvento").value;
+        var localidadeSelected = document.getElementById("Localidade").value;
         $.ajax({
             type: "GET",
-            url: '@Url.Action("Filter", "Eventos")',
+            url: '@Url.Action("SearchFilters", "Eventos")',
             accepts: "*/*",
             data: {
                 data_evento: dataSelected,
@@ -48,12 +48,11 @@
                 localidade: localidadeSelected
             },
             success: function (data) {
-                console.log(data);
+                document.getElementById("search_results").innerHTML = data;
             },
             failure: function (response) {
                 console.log(response.responseText);
             },
-        });
+        });      
     }
-    
 </script>

@@ -3,9 +3,6 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -69,14 +66,14 @@
                         @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Apagar", "Delete", new { id = item.Id })
                     </td>
-                }
+ }
                 else if (SignInManager.IsSignedIn(User) && User.IsInRole("Cliente"))
                 {
                     <td data-target="#exampleModal" data-toggle="modal">
                         @Html.ActionLink("Adicionar aos favoritos", "addToFavorite", new { id = item.Id })
                     </td>
-                }
+           }
             </tr>
-        }
+}
     </tbody>
 </table>

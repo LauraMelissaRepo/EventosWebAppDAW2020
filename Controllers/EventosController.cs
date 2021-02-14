@@ -59,7 +59,11 @@ namespace EventosWebApp.Controllers
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Eventos", evento);
             response.EnsureSuccessStatusCode();
 
-            ViewData["evento_criado"] = "O evento foi criado com sucesso!";
+            if (response.IsSuccessStatusCode)
+            {
+                 ViewData["evento_criado"] = "O evento foi criado com sucesso!";
+            }
+
             return View(evento);
         }
 
@@ -188,24 +192,40 @@ namespace EventosWebApp.Controllers
        
         public async Task<IActionResult> SearchFilters(DateTime data_evento, int tipoEvento, int localidade)
         {
-          
+            
+            String ano = data_evento.Year.ToString();      
             String mes_evento = data_evento.Month.ToString();
-           
             List<Evento> eventosFilter = new List<Evento>();
             HttpClient client = _api.Initial();
-            HttpResponseMessage res = await client.GetAsync($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{mes_evento}");
 
-            if (res.IsSuccessStatusCode)
+            if (ano == "1")
             {
-                var result = res.Content.ReadAsStringAsync().Result;
-                eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+                HttpResponseMessage res = await client.GetAsync($"api/Eventos/tipo/{tipoEvento}/local/{localidade}");
+                if (res.IsSuccessStatusCode)
+                {
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(res);
+                }
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine(res);
-            }
+                HttpResponseMessage res = await client.GetAsync($"api/Eventos/tipo/{tipoEvento}/local/{localidade}/data/{mes_evento}");
 
-            res.EnsureSuccessStatusCode();
+                if (res.IsSuccessStatusCode)
+                {
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    eventosFilter = JsonConvert.DeserializeObject<List<Evento>>(result);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(res);
+                }
+
+            }
             return PartialView(eventosFilter);
         }
 
